@@ -1,5 +1,4 @@
 import { getSupabaseClient } from '../config/supabase.js';
-import { sendRegistrationConfirmationEmail } from '../services/emailService.js';
 
 /**
  * Handle new workshop registration
@@ -48,50 +47,16 @@ export async function createRegistration(req, res, next) {
         message: error.message,
       });
 
-      // Failed insert must NEVER trigger an email
       return res.status(500).json({
         success: false,
         error: 'Unable to process your registration at this time. Please try again or contact organizers.',
       });
     }
 
-    // 2. Trigger Confirmation Email only AFTER successful database insert
-    const emailResult = await sendRegistrationConfirmationEmail({
-      name: data.name,
-      email: data.email,
-      phone: phone.trim(),
-      college: data.college,
-      department: department.trim(),
-      year: year.trim(),
-      registrationId: data.id,
-      createdAt: data.created_at,
-    });
-
-    // 3. Return response accurately distinguishing database success from email delivery status
-    if (emailResult.success) {
-      return res.status(201).json({
-        success: true,
-        message: 'Registration confirmed! A confirmation email has been dispatched to your email address.',
-        emailStatus: 'sent',
-        emailMessageId: emailResult.id,
-        data: {
-          id: data.id,
-          name: data.name,
-          email: data.email,
-          college: data.college,
-          createdAt: data.created_at,
-        },
-      });
-    }
-
-    // Email delivery failed or was skipped, but the database insert is authoritative and preserved
+    // 2. Return standard successful registration response
     return res.status(201).json({
       success: true,
-      message: 'Registration successfully confirmed! (Confirmation email delivery was unavailable or skipped).',
-      emailStatus: 'failed',
-      emailNotice: emailResult.skipped
-        ? 'Confirmation email was skipped (email service pending configuration).'
-        : 'Your registration is safely recorded in the database, but the confirmation email could not be sent.',
+      message: 'Registration confirmed! Welcome to Venture Launchpad at ASTRION 2K26.',
       data: {
         id: data.id,
         name: data.name,

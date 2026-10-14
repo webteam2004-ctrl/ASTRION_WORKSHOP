@@ -69,9 +69,6 @@ export async function submitRegistration(formData) {
       success: true,
       data: data.data,
       message: data.message || 'Registration successfully confirmed!',
-      emailStatus: data.emailStatus || 'unknown',
-      emailNotice: data.emailNotice || null,
-      emailMessageId: data.emailMessageId || null,
     };
   } catch (error) {
     // If backend is unreachable

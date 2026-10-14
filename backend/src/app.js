@@ -77,10 +77,6 @@ app.get('/api/health', (req, res) => {
       process.env.SUPABASE_URL &&
         (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY)
     ),
-    emailConfigured: Boolean(
-      process.env.RESEND_API_KEY &&
-        process.env.RESEND_API_KEY !== 're_your_api_key'
-    ),
   });
 });
 

@@ -26,7 +26,6 @@ export default function RegistrationSection({ onRegistrationSuccess }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const [infoNotice, setInfoNotice] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [registrationOutcome, setRegistrationOutcome] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,7 +42,6 @@ export default function RegistrationSection({ onRegistrationSuccess }) {
       const result = await submitRegistration(formData);
 
       if (result.success) {
-        setRegistrationOutcome(result);
         setSubmitted(true);
         if (onRegistrationSuccess) {
           onRegistrationSuccess(result);
@@ -133,16 +131,6 @@ export default function RegistrationSection({ onRegistrationSuccess }) {
               <p className="terminal-success__desc">
                 Your workshop registration for the two-day experience (23–24 October 2026) has been successfully recorded in the database.
               </p>
-              {registrationOutcome?.emailStatus === 'sent' && (
-                <div style={{ marginTop: '0.8rem', padding: '0.6rem 1rem', background: 'rgba(0, 229, 255, 0.1)', border: '1px solid rgba(0, 229, 255, 0.3)', borderRadius: '6px', fontSize: '0.85rem', color: '#00e5ff' }}>
-                  ✉️ Confirmation email successfully dispatched to <strong>{registrationOutcome?.data?.email || formData.email}</strong>.
-                </div>
-              )}
-              {registrationOutcome?.emailStatus === 'failed' && (
-                <div style={{ marginTop: '0.8rem', padding: '0.6rem 1rem', background: 'rgba(255, 179, 0, 0.1)', border: '1px solid rgba(255, 179, 0, 0.3)', borderRadius: '6px', fontSize: '0.85rem', color: '#ffb300' }}>
-                  ⚠️ {registrationOutcome?.emailNotice || 'Confirmation email service is pending server configuration. Your registration is safely recorded.'}
-                </div>
-              )}
               <div style={{ marginTop: '1.2rem' }}>
                 <button
                   className="btn btn--ghost"
@@ -156,7 +144,6 @@ export default function RegistrationSection({ onRegistrationSuccess }) {
                       year: '',
                       website: '',
                     });
-                    setRegistrationOutcome(null);
                     setSubmitted(false);
                   }}
                 >
