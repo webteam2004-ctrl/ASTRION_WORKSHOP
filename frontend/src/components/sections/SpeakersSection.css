@@ -1,0 +1,345 @@
+.speakers {
+    position: relative;
+    padding: var(--space-3xl) var(--space-lg);
+    background: transparent;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.speakers__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.speakers__controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.speakers__filter-pills {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.filter-pill {
+    padding: 0.45rem 1.2rem;
+    border-radius: 20px;
+    background: rgba(5, 12, 24, 0.7);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--color-white-dim);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.filter-pill:hover {
+    border-color: rgba(0, 229, 255, 0.4);
+    color: var(--color-white);
+}
+
+.filter-pill:focus-visible {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.3);
+}
+
+.filter-pill--active {
+    background: rgba(0, 229, 255, 0.12);
+    border-color: var(--color-cyan);
+    color: var(--color-cyan);
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.15);
+}
+
+.carousel-pause-btn {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--color-white-muted);
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 6px;
+    background: rgba(5, 12, 24, 0.5);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    outline: none;
+}
+
+.carousel-pause-btn:hover {
+    color: var(--color-cyan);
+    border-color: var(--color-cyan);
+}
+
+.carousel-pause-btn:focus-visible {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.3);
+}
+
+/* ============================================================
+   INFINITE HORIZONTAL CAROUSEL
+   ============================================================ */
+
+.speakers__carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 1.5rem 0;
+    /* Soft edge fades for seamless entry/exit */
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+.speakers__carousel-track {
+    display: flex;
+    width: max-content;
+    animation: infiniteScroll 34s linear infinite;
+}
+
+.speakers__carousel-track--paused {
+    animation-play-state: paused !important;
+}
+
+.speakers__track-group {
+    display: flex;
+    gap: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+@keyframes infiniteScroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ============================================================
+   SPEAKER CARD (Dimensions Preserved: 320px desktop, 280px mobile)
+   ============================================================ */
+
+.speaker-card {
+    width: 320px;
+    flex-shrink: 0;
+    padding: 1.5rem 1.35rem;
+    border-radius: var(--radius-lg);
+    background: rgba(3, 8, 20, 0.65);
+    border: 1px solid var(--color-border);
+    backdrop-filter: blur(18px);
+    transition: transform 0.3s var(--ease-out-expo), border-color 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.speaker-card:hover,
+.speaker-card:focus-visible {
+    transform: translateY(-5px);
+    border-color: var(--speaker-accent, var(--color-cyan));
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 229, 255, 0.15);
+    outline: none;
+}
+
+/* 1. Dedicated Speaker Photo Area at the Top */
+.speaker-card__photo-section {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin-bottom: 0.95rem;
+}
+
+.speaker-card__portrait-frame {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, rgba(18, 38, 76, 0.95), rgba(4, 9, 22, 0.98));
+    border: 2px solid var(--speaker-accent, var(--color-cyan));
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 229, 255, 0.12);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.speaker-card:hover .speaker-card__portrait-frame {
+    box-shadow: 0 0 18px var(--speaker-accent, var(--color-cyan));
+    transform: scale(1.04);
+}
+
+.speaker-card__portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Clean Silhouette Placeholder */
+.speaker-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: radial-gradient(circle, rgba(14, 28, 56, 0.95), rgba(3, 7, 18, 0.98));
+}
+
+.speaker-card__silhouette {
+    width: 38px;
+    height: 38px;
+    fill: rgba(148, 163, 184, 0.45);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    transition: fill 0.2s ease;
+}
+
+.speaker-card:hover .speaker-card__silhouette {
+    fill: rgba(0, 229, 255, 0.6);
+}
+
+.speaker-card__corner-icon {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 0.8rem;
+    background: rgba(3, 8, 20, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.speaker-card__meta-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+    flex-grow: 1;
+}
+
+.speaker-card__day-tag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--color-white-muted);
+    font-weight: 600;
+}
+
+.speaker-card__badge {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.5rem;
+    background: rgba(4, 9, 20, 0.85);
+    border: 1px solid var(--speaker-accent, var(--color-cyan));
+    border-radius: 4px;
+    color: var(--speaker-accent, var(--color-cyan));
+    width: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* 2. Speaker Identity */
+.speaker-card__identity {
+    margin-bottom: 0.75rem;
+}
+
+.speaker-card__name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-white);
+    margin: 0 0 0.2rem 0;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.speaker-card__role {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--speaker-accent, var(--color-cyan));
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 3. Session Box */
+.speaker-card__session {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.75rem 0.9rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+}
+
+.speaker-card__session-title {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-white);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.speaker-card__timing {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--color-cyan);
+    display: block;
+}
+
+/* 4. Short Description */
+.speaker-card__note {
+    font-size: 0.82rem;
+    color: #b0bec5;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+    .speaker-card {
+        width: 280px;
+        padding: 1.3rem;
+    }
+
+    .speaker-card__portrait-frame {
+        width: 60px;
+        height: 60px;
+    }
+
+    .speaker-card__silhouette {
+        width: 32px;
+        height: 32px;
+    }
+}

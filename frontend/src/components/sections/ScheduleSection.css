@@ -1,0 +1,772 @@
+/* ============================================================
+   ASTRION 2K26 — WORKSHOP SCHEDULE STYLING
+   Horizontal Milestone Flowchart Layout
+   ============================================================ */
+
+.schedule-section {
+  position: relative;
+  padding: var(--space-3xl) var(--space-lg);
+  background: transparent;
+  z-index: 5;
+  width: 100%;
+}
+
+.schedule__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.schedule__header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.schedule__header-sub {
+  font-size: 0.95rem;
+  color: var(--color-white-dim);
+  margin-top: 0.4rem;
+}
+
+/* ============================================================
+   DAY SELECTOR BUTTONS: DAY 01 — FRI, 23 OCT / DAY 02 — SAT, 24 OCT
+   ============================================================ */
+
+.schedule__day-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 2.8rem;
+  flex-wrap: wrap;
+}
+
+.day-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 2.2rem;
+  background: rgba(3, 8, 18, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out-expo);
+  backdrop-filter: blur(16px);
+  outline: none;
+}
+
+.day-tab-btn:hover {
+  border-color: rgba(0, 229, 255, 0.45);
+  background: rgba(0, 229, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+.day-tab-btn:focus-visible {
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.3);
+}
+
+.day-tab-btn--active {
+  background: rgba(0, 229, 255, 0.12) !important;
+  border-color: var(--color-cyan) !important;
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.22);
+}
+
+.day-tab-btn__name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 0.08em;
+}
+
+.day-tab-btn--active .day-tab-btn__name {
+  color: var(--color-cyan);
+}
+
+.day-tab-btn__sep {
+  color: var(--color-white-muted);
+}
+
+.day-tab-btn__date {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--color-white-dim);
+  font-weight: 600;
+}
+
+/* ============================================================
+   HORIZONTAL MILESTONE FLOWCHART
+   ============================================================ */
+
+.flowchart-timeline-outer {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2.2rem;
+  /* Subtle dark shield behind flowchart to prevent 3D background collision */
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(2, 6, 16, 0.75) 0%,
+    rgba(2, 6, 16, 0.4) 70%,
+    transparent 100%
+  );
+  border-radius: 20px;
+  padding: 1rem 0;
+}
+
+.flowchart-timeline-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 0.5rem 1.5rem 0.5rem;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 229, 255, 0.3) transparent;
+}
+
+.flowchart-timeline-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.flowchart-timeline-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.3);
+  border-radius: 4px;
+}
+
+.flowchart-milestones-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  margin: 0 auto;
+}
+
+/* Individual Milestone Column Node */
+.flowchart-milestone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1 1 0px;
+  min-width: 170px;
+  max-width: 220px;
+  padding: 0 0.4rem;
+  text-align: center;
+  scroll-snap-align: center;
+  transition: transform 0.25s var(--ease-out-expo);
+}
+
+/* ============================================================
+   1. TIME LABEL ABOVE THE TIMELINE
+   ============================================================ */
+
+.flowchart-milestone__time-top {
+  min-height: 44px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.milestone-time-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(0, 229, 255, 0.85);
+  background: rgba(2, 8, 20, 0.7);
+  padding: 0.25rem 0.6rem;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.flowchart-milestone--selected .milestone-time-badge {
+  color: #00e5ff;
+  font-weight: 700;
+  background: rgba(0, 229, 255, 0.15);
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+.flowchart-milestone--unconfirmed .milestone-time-badge {
+  color: #ffca28;
+  border-color: rgba(255, 179, 0, 0.35);
+}
+
+/* ============================================================
+   2. CIRCULAR MILESTONE MARKER ON THE TIMELINE
+   ============================================================ */
+
+.flowchart-milestone__track {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Continuous connecting line segments passing behind markers */
+.flowchart-line-segment {
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 229, 255, 0.3),
+    rgba(0, 229, 255, 0.6),
+    rgba(124, 77, 255, 0.5)
+  );
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+  transform: translateY(-50%);
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.flowchart-line-segment--left {
+  left: 0;
+  right: 50%;
+}
+
+.flowchart-line-segment--right {
+  left: 50%;
+  right: 0;
+}
+
+/* First node has no left line; last node has no right line */
+.flowchart-milestone:first-child .flowchart-line-segment--left {
+  display: none;
+}
+
+.flowchart-milestone:last-child .flowchart-line-segment--right {
+  display: none;
+}
+
+/* Marker Button */
+.flowchart-marker-btn {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition: transform 0.25s var(--ease-out-expo);
+}
+
+.flowchart-marker-btn:focus-visible .flowchart-marker-circle {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 4px;
+}
+
+.flowchart-marker-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #030814;
+  border: 2px solid rgba(0, 229, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.25s var(--ease-out-expo);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.marker-number {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.marker-glyph {
+  font-size: 0.95rem;
+}
+
+/* Marker Hover State */
+.flowchart-milestone:hover .flowchart-marker-circle {
+  border-color: var(--color-cyan);
+  color: #fff;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.5);
+  transform: scale(1.08);
+}
+
+/* Marker Active / Selected State */
+.flowchart-milestone--selected .flowchart-marker-circle {
+  border-color: #00e5ff !important;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.35) 0%, #030814 80%) !important;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.8), inset 0 0 8px rgba(0, 229, 255, 0.4) !important;
+  color: #ffffff !important;
+  transform: scale(1.2);
+}
+
+.marker-glow-ring {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 229, 255, 0);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.flowchart-milestone--selected .marker-glow-ring {
+  border-color: rgba(0, 229, 255, 0.4);
+  animation: pulseMarkerRing 2.4s infinite;
+}
+
+@keyframes pulseMarkerRing {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Special Marker Variants */
+.flowchart-milestone--unconfirmed .flowchart-marker-circle {
+  border: 2px dashed #ffb300;
+  color: #ffca28;
+}
+
+.flowchart-milestone--lunch .flowchart-marker-circle {
+  border: 2px solid rgba(179, 136, 255, 0.6);
+  color: #d1c4e9;
+  background: #080614;
+}
+
+.flowchart-milestone--lunch.flowchart-milestone--selected .flowchart-marker-circle {
+  border-color: #b388ff !important;
+  box-shadow: 0 0 20px rgba(179, 136, 255, 0.8) !important;
+  background: radial-gradient(circle, rgba(179, 136, 255, 0.35) 0%, #080614 80%) !important;
+}
+
+/* ============================================================
+   3. SHORT SESSION TITLE & DETAILS BELOW THE MARKER
+   ============================================================ */
+
+.flowchart-milestone__content-bottom {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  padding: 0.75rem 0.5rem;
+  border-radius: 12px;
+  background: rgba(3, 8, 18, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  min-height: 125px;
+  transition: all 0.25s var(--ease-out-expo);
+}
+
+.flowchart-milestone:hover .flowchart-milestone__content-bottom {
+  background: rgba(0, 229, 255, 0.05);
+  border-color: rgba(0, 229, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.flowchart-milestone--selected .flowchart-milestone__content-bottom {
+  background: rgba(0, 229, 255, 0.1) !important;
+  border-color: rgba(0, 229, 255, 0.4) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 229, 255, 0.15);
+}
+
+.milestone-title {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.3;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.flowchart-milestone--selected .milestone-title {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+}
+
+.milestone-detail {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: #b0bec5;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.milestone-meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.milestone-speaker-pill {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #80d8ff;
+  background: rgba(0, 229, 255, 0.08);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  font-weight: 600;
+}
+
+.milestone-duration-pill {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.milestone-status-pill--warning {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: #ffca28;
+  background: rgba(255, 179, 0, 0.12);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 179, 0, 0.35);
+  font-weight: 600;
+}
+
+.milestone-lunch-pill {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: #d1c4e9;
+  background: rgba(179, 136, 255, 0.12);
+  border: 1px solid rgba(179, 136, 255, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* Touch scroll hint */
+.flowchart-scroll-hint {
+  display: none;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(0, 229, 255, 0.6);
+}
+
+/* ============================================================
+   ACTIVE SESSION DETAILS PANEL (Compact & High Contrast)
+   ============================================================ */
+
+.flowchart-detail-panel {
+  padding: 1.8rem 2.4rem;
+  border-radius: var(--radius-xl);
+  background: rgba(3, 8, 18, 0.75);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(0, 229, 255, 0.08);
+  text-align: left;
+  animation: fadeInDetail 0.25s ease;
+}
+
+@keyframes fadeInDetail {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Lunch only view */
+.detail-panel__lunch-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.8rem;
+  padding: 1rem 0;
+  text-align: left;
+}
+
+.detail-panel__lunch-icon {
+  font-size: 2.5rem;
+  background: rgba(179, 136, 255, 0.1);
+  border: 1px solid rgba(179, 136, 255, 0.3);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-panel__kicker {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: #b388ff;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.detail-panel__lunch-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-white);
+  letter-spacing: 0.08em;
+  margin: 0 0 0.4rem 0;
+}
+
+.detail-panel__lunch-timing {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-cyan);
+  margin: 0;
+}
+
+/* Full session view */
+.detail-panel__grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 2.2rem;
+  align-items: start;
+}
+
+.detail-panel__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.detail-step-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  padding: 0.2rem 0.6rem;
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid var(--color-cyan);
+  border-radius: 4px;
+  color: var(--color-cyan);
+  font-weight: 700;
+}
+
+.detail-time-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.detail-duration-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-white-dim);
+}
+
+.detail-status-tag--warning {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: #ffca28;
+  background: rgba(255, 179, 0, 0.12);
+  border: 1px solid rgba(255, 179, 0, 0.3);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.detail-panel__title {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--color-white);
+  line-height: 1.3;
+  margin: 0 0 0.8rem 0;
+}
+
+.detail-panel__speaker-bar {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  flex-wrap: wrap;
+}
+
+.meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--color-white-muted);
+  font-weight: 700;
+}
+
+.meta-value-speaker {
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+.meta-value-role {
+  font-size: 0.82rem;
+  color: var(--color-white-dim);
+}
+
+.detail-panel__description {
+  color: #b0bec5;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin: 0 0 0.9rem 0;
+  max-width: 680px;
+}
+
+.detail-panel__note-bar {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  color: var(--color-white-dim);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.note-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--color-cyan);
+  font-weight: 700;
+}
+
+.note-text {
+  color: #cfd8dc;
+}
+
+.detail-panel__side {
+  background: rgba(2, 6, 16, 0.6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.spatial-sync-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  color: var(--color-success);
+}
+
+.sync-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
+}
+
+.category-meta-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.category-value {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-cyan);
+  letter-spacing: 0.08em;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .flowchart-milestone {
+    min-width: 155px;
+  }
+}
+
+@media (max-width: 860px) {
+  .flowchart-scroll-hint {
+    display: block;
+  }
+
+  .flowchart-milestones-row {
+    width: max-content;
+    gap: 0.6rem;
+  }
+
+  .flowchart-milestone {
+    width: 175px;
+    flex-shrink: 0;
+  }
+
+  .detail-panel__grid {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .flowchart-detail-panel {
+    padding: 1.4rem 1.6rem;
+  }
+
+  .detail-panel__lunch-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.8rem;
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .flowchart-milestone,
+  .flowchart-marker-btn,
+  .flowchart-marker-circle,
+  .flowchart-milestone__content-bottom,
+  .day-tab-btn {
+    transition: none !important;
+  }
+
+  .marker-glow-ring {
+    animation: none !important;
+  }
+}

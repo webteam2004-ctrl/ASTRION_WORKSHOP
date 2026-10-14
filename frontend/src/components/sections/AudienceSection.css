@@ -1,0 +1,123 @@
+.audience__paths {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-top: 3rem;
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+}
+
+.audience__path {
+    text-align: center;
+    padding: 2rem 1.5rem 1.5rem;
+    position: relative;
+    transition: all 0.4s var(--ease-out-expo);
+}
+
+.audience__path:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-cyan) !important;
+}
+
+.audience__path-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.audience__path-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow: 0 0 10px var(--color-cyan-glow);
+}
+
+.audience__path-line {
+    width: 1px;
+    height: 0;
+    background: linear-gradient(to bottom, transparent, var(--color-cyan));
+    transition: height 0.5s var(--ease-out-expo);
+}
+
+.audience__path:hover .audience__path-line {
+    height: 20px;
+}
+
+.audience__path-title {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    color: var(--color-white);
+    transition: color 0.3s ease;
+}
+
+.audience__path:hover .audience__path-title {
+    color: var(--color-cyan);
+}
+
+.audience__path-desc {
+    font-size: 0.8rem;
+    color: var(--color-white-muted);
+    line-height: 1.5;
+}
+
+.audience__destination {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.audience__destination-glow {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-cyan-glow), transparent);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: destGlow 3s ease-in-out infinite;
+}
+
+@keyframes destGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+}
+
+.audience__destination-label {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    letter-spacing: 0.15em;
+    color: var(--color-cyan);
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .audience__paths {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .audience__paths {
+        grid-template-columns: 1fr;
+    }
+}
